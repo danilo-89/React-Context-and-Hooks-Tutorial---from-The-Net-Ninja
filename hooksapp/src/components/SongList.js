@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {v4} from 'uuid';
+import NewSongForm from './NewSongForm';
 
 const SongList = () => {
     const [songs, setSongs] = useState([
@@ -7,9 +8,16 @@ const SongList = () => {
         { title: 'memory gospel', id: 2 },
         { title: 'this wild darkness', id: 3 }
     ])
-    const addSong = () => {
-        setSongs([...songs, { title: 'new song', id: v4()}])
+    const [age, setAge] = useState(20);
+    const addSong = (title) => {
+        setSongs([...songs, { title, id: v4()}])
     }
+    useEffect(() => {
+        console.log("use effect hook", songs)
+    }, [songs])
+    useEffect(() => {
+        console.log("use effect hook", age)
+    }, [age])
     return (
         <div className="song-list">
             <ul>
@@ -17,9 +25,8 @@ const SongList = () => {
                     return <li key={song.id}>{song.title}</li>
                 })}
             </ul>
-            <button onClick={addSong}>
-                Add a song
-            </button>
+            <NewSongForm addSong={addSong} />
+            <button onClick={()=>{setAge((currAge)=>currAge+1)}}>+1 to {age}</button>
         </div>
     );
 }
